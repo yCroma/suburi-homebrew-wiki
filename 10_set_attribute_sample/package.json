@@ -1,0 +1,21 @@
+{
+  "name": "10_set_attribute_sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"build": "webpack",
+		"serve": "webpack serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
