@@ -5,20 +5,16 @@ class Href extends HTMLElement {
 		this.innerHTML = this.textContent
 		const relativepath = this.getAttribute("href")
 		// ./relative から１文字目を削除することによって
-		// 相対パスを作っている
+		// ドキュメントルートに対する絶対パスを作っている
 		const absolutepath = relativepath.replace(/\./, "")
 
 		// pushStateする際に絶対パスでないと、
-		// パスの地点から相対パスを上書きし続けてしまう
+		// パスの地点から相対パスで上書きし続けてしまう
 		this.addEventListener("click", event => {
 			event.preventDefault();
 			window.history.pushState(null, "", absolutepath)
 			// wiki-artcle に向けて イベントを発行
 			document.querySelector("wiki-article").dispatchEvent(changepathname)
-		})
-
-		this.addEventListener("changepathname", () => {
-			console.log("hello")
 		})
 
 	}
