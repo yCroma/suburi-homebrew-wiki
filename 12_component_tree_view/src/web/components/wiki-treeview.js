@@ -1,23 +1,18 @@
-import TreeJSON from "../utils/treejson"
+import TreeJSON from "Utils/treejson"
 // 1. SPAのパス変更に対応したDOMを追加
 class TreeView extends HTMLElement {
 	constructor() {
 		super()
 		const treeview = this.treeview()
 		treeview.addEventListener("click", event => {
-			console.log("event: ", )
+			const sender = event.srcElement || event.target;
+			if (sender.nodeName == "LI") {
+				const classList = sender.classList;
+				if (classList.contains("fold")) {
+					classList.toggle("expand")
+				}
+			}
 		})
-		console.log(this.treeview())
-		const li_dirs = Array.from( treeview.getElementsByClassName("dir") )
-		/*
-		console.log(li_dirs)
-		li_dirs.forEach( li_dir => {
-			li_dir.addEventListener("click", () => {
-				li_dir.classList.toggle("expand")
-				console.log(li_dir)
-			})
-		})
-		*/
 		const style = this.style()
 		const shadow = this.attachShadow({mode: 'open'})
 		shadow.appendChild(treeview)
@@ -39,7 +34,7 @@ class TreeView extends HTMLElement {
 			// JSON.children.length > 0 means thas JSON.path is a directory
 			// Thus, recursion on files under a directory
 
-			// 親としてのroot li を作成
+			// create root li as parent
 			// <wiki-a href="path" > filename </wiki-a>
 			const wiki_a = document.createElement("wiki-a")
 			wiki_a.setAttribute("href", `${JSON.path}`)
@@ -47,7 +42,7 @@ class TreeView extends HTMLElement {
 			// <li><wiki-a href="path" > filename </wiki-a></li>
 			const li = document.createElement("li")
 			// directoryのタイトルは閉じれるようにする
-			li.setAttribute("class", "dir")
+			li.setAttribute("class", "fold")
 			li.appendChild(wiki_a)
 
 			/*
@@ -94,7 +89,10 @@ class TreeView extends HTMLElement {
 	style() {
 		const style = document.createElement("style")
 		style.textContent = `
-		li.dir > li, li.dir > ul {
+		li {
+			list-style-position: outside;
+		}
+		li.fold > li, li.fold > ul {
 			display: none;
 		}
 		li.expand > ul {
